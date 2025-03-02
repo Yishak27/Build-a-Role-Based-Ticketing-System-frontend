@@ -14,20 +14,20 @@ import ErrorBoundary from 'antd/es/alert/ErrorBoundary';
 
 function App() {
   const theme = createTheme();
-  if (process.env.NODE_ENV === "development") {
-    window.onerror = () => true;
-    window.onunhandledrejection = (event) => {
-      event.preventDefault();
-    };
+  // if (process.env.NODE_ENV === "development") {
+  //   window.onerror = () => true;
+  //   window.onunhandledrejection = (event) => {
+  //     event.preventDefault();
+  //   };
 
-    console.error = (message) => {
-      if (typeof message === "string" && message.includes("specific error")) {
+  //   console.error = (message) => {
+  //     if (typeof message === "string" && message.includes("specific error")) {
 
-      } else {
-        console.log(message); // Log normally
-      }
-    };
-  }
+  //     } else {
+  //       console.log(message); // Log normally
+  //     }
+  //   };
+  // }
   return (
     <ThemeProvider theme={theme}>
       <Router>

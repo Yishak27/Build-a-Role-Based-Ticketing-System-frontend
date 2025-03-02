@@ -156,40 +156,31 @@ export const apiUtility = {
 
     async post(url, body) {
         try {
-            // console.log('before encryption:', body);
-            const encrypt = await encryptData(body);
-            // console.log('encrypted data:', encrypt);
-
-            // const response = await axios.post(`${baseUrl}${url}`, { payload: encrypt }, {
-            //     headers: {
-            //         'Content-Type': 'application/json',
-            //         'Accept': 'application/json',
-            //     },
-            //     withCredentials: true,
-            // });
-
-            const response = await api.post(url, { payload: encrypt },
+            const baseUrl = process.env.REACT_APP_API_BASE_URL;
+            console.log('body', `${baseUrl}/${url}`,body);
+            
+            const response = await api.post(`${baseUrl}/${url}`,body,
                 {
                     headers: {
                         'Content-Type': 'application/json',
                         'Accept': 'application/json',
                     },
                 }
-            );
+            ).then((res) => res.data)
+                .catch(err => {
+                    console.log('error', err);
+                    
+                    throw new Error(err)
+                });
+            console.log('response log post', response);
 
-            // console.log('response', response);
-            if (response.status === 200 && response.data) {
-                // console.log('response', response.data);
-                if (response.data.payload) {
-                    const decryptedData = await decryptData(response.data.payload);
-                    // console.log('decrypted data:', decryptedData);
-                    return { status: true, data: JSON.parse(decryptedData) };
+            if (response.status === "success" && response.data) {
+                if (response.data) {
+                    return { status: true, data: response.data };
                 }
             } else {
-                if (response.data && response.data.payload) {
-                    const decryptedData = await decryptData(response.data.payload);
-                    // console.log('decrypted data in error occu:', decryptedData);
-                    return { status: false, data: JSON.parse(decryptedData) };
+                if (response.message) {
+                    return { status: false, message: response.message };
                 }
             }
             return {
@@ -208,18 +199,4 @@ export const apiUtility = {
 export const getUser = async () => {
     const user = await decryptData(localStorage.getItem('user'));
     return JSON.parse(user);
-}
-
-export const getUserId = async () => {
-    return await decryptData(localStorage.getItem('userId'));
-};
-
-export const getShData = async () => {
-    try {
-        const sh = await decryptData(localStorage.getItem('shareholderId'));
-        // // console.log('sh', sh);
-        return JSON.parse(sh);
-    } catch (error) {
-        throw new Error('Error fetching shareholder data:', error);
-    }
 }

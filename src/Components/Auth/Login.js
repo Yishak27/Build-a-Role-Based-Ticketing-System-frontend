@@ -23,22 +23,22 @@ const Login = () => {
     e.preventDefault();
     try {
       setIsLoading(true);
-      const response = await apiUtility(username, password);
-      // console.log('response', response);
+      const response = await apiUtility.post(`user/login`, {
+        userName: username
+        , password: password
+      });
+    console.log('response', response);
 
-      if (response && response.data) {
+      if (response) {
         if (response.status == true) {
           enqueueSnackbar("Login successfully", { variant: "success" });
-          localStorage.setItem("authToken", response.data.user.tokens[0]);
-          localStorage.setItem("userId", await encryptData(username));
-          localStorage.setItem("fullName", await encryptData(response.data.shareInfo.fullName));
-          localStorage.setItem("user", await encryptData(response.data.user));
-          localStorage.setItem("shareholderId", await encryptData(response.data.shareInfo));
+          localStorage.setItem("authToken", response.data.token[0]);
+          localStorage.setItem("user", await encryptData(response.data));
           setIsLoading(false);
-          navigate("/dashboard", { replace: true });
+          navigate("/userDashbard", { replace: true });
         }
         else {
-          enqueueSnackbar(response.data.message, { variant: "error" });
+          enqueueSnackbar(response.message, { variant: "error" });
           setIsLoading(false);
         }
       } else {
@@ -109,7 +109,7 @@ const Login = () => {
 
           <form onSubmit={handleSubmit} style={{ width: "100%" }}>
             <CustomTextField
-              label="Share Holder Id"
+              label="UserName"
               value={username}
               required={true}
               onChange={(e) => setUsername(e.target.value)}

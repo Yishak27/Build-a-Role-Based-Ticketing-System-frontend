@@ -1,7 +1,7 @@
 import CryptoJS from "crypto-js";
 
-const enc_secret_key = process.env.REACT_APP_encryptionKey; 
-const dec_secret_key = process.env.REACT_APP_encryptionKey; 
+const enc_secret_key = process.env.REACT_APP_API_BASE_URL; 
+const dec_secret_key = process.env.REACT_APP_API_BASE_URL; 
 
 export const encryptData = async (data) => {
   try {

@@ -4,7 +4,7 @@ import { PieChartOutlined, BarChartOutlined, UserOutlined, QrcodeOutlined, Logou
 import colors from '../../constant/colors';
 // import { Pie } from '@ant-design/plots';
 import { PieChart, Pie, Cell, Legend, Tooltip } from 'recharts';
-import { apiUtility, getShData, getUser } from '../../utils/api';
+import { apiUtility, getUser } from '../../utils/api';
 import { useNavigate } from 'react-router-dom';
 import { useSnackbar } from "notistack";
 import { FooterPage } from '../../Auth/FooterPage';
@@ -17,31 +17,31 @@ export const UserDashboardPage = () => {
     const [showVoting, setShowVoting] = useState(false);
     const navigate = useNavigate();
     const { enqueueSnackbar } = useSnackbar();
-    const [shareholder, setShData] = useState({});
+    const [User, setShData] = useState({});
 
     useEffect(() => {
         async function fetchData() {
             try {
-                const data = await getShData();
+                const data = await getUser();
                 setShData(data);
             } catch (error) {
             }
         }
-    
+
         fetchData();
     }, []);
-    
+
     const pieConfig = [
-        { name: 'Subscribe Amount', value: shareholder ? shareholder.subscribeAmount : 0 },
-        { name: 'Paid Amount', value: shareholder ? shareholder.paidAmount : 0 },
+        { name: 'Subscribe Amount', value: User ? User.subscribeAmount : 0 },
+        { name: 'Paid Amount', value: User ? User.paidAmount : 0 },
         {
-            name: 'Remaining Amount', value: shareholder ? shareholder.subscribeAmount - shareholder.paidAmount : 0
+            name: 'Remaining Amount', value: User ? User.subscribeAmount - User.paidAmount : 0
         },
     ];
 
     useEffect(() => {
-    }, [shareholder]);
-    const COLORS = [colors.primary, colors.secondary, colors.warning]; 
+    }, [User]);
+    const COLORS = [colors.primary, colors.secondary, colors.warning];
 
     const handleDismiss = () => {
         setVisible(false);
@@ -77,7 +77,7 @@ export const UserDashboardPage = () => {
                         marginLeft: '20px', fontSize: '20px',
                         color: colors.primary, fontWeight: 'bold'
                     }}>Ticketing Dashboard</label>
-                    <Menu mode='vertical' style={{ float: 'right', justifyContent:'center', alignItems:'center'                     }}>
+                    <Menu mode='vertical' style={{ float: 'right', justifyContent: 'center', alignItems: 'center' }}>
                         {/* <Menu.Item key="profile" icon={<QrcodeOutlined />}>
                         <a href="#profile">QR</a>
                     </Menu.Item> */}
@@ -108,21 +108,21 @@ export const UserDashboardPage = () => {
 
                     <Row gutter={16}>
                         <Col xs={24} sm={24} md={12} lg={12} xl={12} style={{ marginTop: 10 }}>
-                            <Card title="Shareholder Information" bordered={false}>
-                        {/* <Watermark content="Ticketing system"> */}
-                                <p><strong>Name:</strong> {shareholder.fullName}</p>
-                                <p><strong>Amharic Name:</strong> {shareholder.amharicName}</p>
-                                <p><strong>Phone Number:</strong> {shareholder.phoneNumber}</p>
-                                <p><strong>Number Of Shares:</strong> {shareholder.numberOfShare}</p>
-                                <p><strong>Paid Amount:</strong> {shareholder.paidAmount}</p>
-                                <p><strong>Subscribed Amount:</strong> {shareholder.subscribeAmount}</p>
-                                <p><strong>Shareholder ID:</strong> {shareholder.sh_id_ref}</p>
-                        {/* </Watermark> */}
+                            <Card title="UserInformation" bordered={false}>
+                                {/* <Watermark content="Ticketing system"> */}
+                                <p><strong>Name:</strong> {User.fullName}</p>
+                                <p><strong>Amharic Name:</strong> {User.amharicName}</p>
+                                <p><strong>Phone Number:</strong> {User.phoneNumber}</p>
+                                <p><strong>Number Of Shares:</strong> {User.numberOfShare}</p>
+                                <p><strong>Paid Amount:</strong> {User.paidAmount}</p>
+                                <p><strong>Subscribed Amount:</strong> {User.subscribeAmount}</p>
+                                <p><strong>UserID:</strong> {User.sh_id_ref}</p>
+                                {/* </Watermark> */}
                             </Card>
                         </Col>
 
                         <Col xs={24} sm={24} md={12} lg={12} xl={12} style={{ marginTop: 10 }}>
-                            <Card title="Shareholder Data" bordered={false}>
+                            <Card title="UserData" bordered={false}>
                                 <div style={{
                                     height: 270,
                                     alignItems: 'center',
@@ -164,51 +164,9 @@ export const UserDashboardPage = () => {
                             </Card>
                         </Col>
                     </Row>
-
-                    <Row gutter={16} style={{ marginTop: '20px' }}>
-                        <Col span={12}>
-                            <Button
-                                size="large"
-                                style={{ borderColor: colors.primary, color: colors.primary, padding: '50px' }}
-                                icon={<BarChartOutlined />}
-                                block
-                                onClick={handleAttendanceClick}>
-                                Attendance
-                            </Button>
-                        </Col>
-                        <Col span={12}>
-                            <Button
-                                style={{
-                                    backgroundColor: colors.primary,
-                                    borderColor: colors.primary,
-                                    color: colors.white,
-                                    padding: '50px'
-                                }}
-                                size="large"
-                                icon={<PieChartOutlined />}
-                                block
-                                onClick={handleVotingClick}
-                            >
-                                Vote
-                            </Button>
-                        </Col>
-                    </Row>
                 </Content>
-              <FooterPage/>
+                <FooterPage />
             </Layout>
-          
-            {/* <Modal
-                title="Voting"
-                visible={showVoting}
-                onCancel={() => setShowVoting(false)}
-                footer={[
-                    <Button key="back" onClick={() => setShowVoting(false)}>
-                        Close
-                    </Button>,
-                ]}
-            >
-                <p>Voting functionality coming soon!</p>
-            </Modal> */}
         </>
     );
 };
