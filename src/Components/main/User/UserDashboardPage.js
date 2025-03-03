@@ -56,7 +56,7 @@ export const UserDashboardPage = () => {
     const handleLogout = async () => {
         try {
             enqueueSnackbar("Log out successfully", { variant: "success" });
-            const response = await apiUtility.get('/user/signOut');
+            const response = await apiUtility.get('/user/logout');
             localStorage.clear();
             navigate('/login', { replace: true });
         } catch (error) {
