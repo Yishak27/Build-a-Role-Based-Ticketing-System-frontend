@@ -114,7 +114,6 @@ api.interceptors.response.use(
     response => response,
     async error => {
         if (error.response && error.response.status === 401) {
-            console.warn("Unauthorized! Redirecting to login...");
             localStorage.clear();
             window.location.href = '/';
 
@@ -135,7 +134,7 @@ export const apiUtility = {
                 return { status: false, data: response };
             }
         } catch (error) {
-            console.error('Error during GET request:', error);
+            // console.error('Error during GET request:', error);
             return {
                 status: false,
                 message: "Something went wrong. Please try again later.",
@@ -172,7 +171,6 @@ export const apiUtility = {
                 message: "Something went wrong. Please try again later.",
             };
         } catch (error) {
-            console.error('Error during POST request:', error);
             return {
                 status: false,
                 message: "Something went wrong. Please try again later.",
