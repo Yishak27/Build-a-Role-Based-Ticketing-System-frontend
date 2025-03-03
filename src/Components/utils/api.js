@@ -200,3 +200,8 @@ export const getUser = async () => {
     const user = await decryptData(localStorage.getItem('user'));
     return JSON.parse(user);
 }
+
+export const getRole = async ()=>{
+    const role = await decryptData(localStorage.getItem('role'));
+    return JSON.parse(role);
+}

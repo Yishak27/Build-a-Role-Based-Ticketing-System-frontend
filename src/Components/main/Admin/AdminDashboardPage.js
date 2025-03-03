@@ -4,7 +4,7 @@ import { PieChartOutlined, BarChartOutlined, UserOutlined, QrcodeOutlined, Logou
 import colors from '../../constant/colors';
 // import { Pie } from '@ant-design/plots';
 import { PieChart, Pie, Cell, Legend, Tooltip } from 'recharts';
-import { apiUtility, getUser } from '../../utils/api';
+import { apiUtility, getRole, getUser } from '../../utils/api';
 import { useNavigate } from 'react-router-dom';
 import { useSnackbar } from "notistack";
 import { FooterPage } from '../../Auth/FooterPage';
@@ -40,9 +40,20 @@ export const AdminDashboardPage = () => {
     ];
 
     useEffect(() => {
-    }, [User]);
+        fetchUserRole();
+    }, []);
     const COLORS = [colors.primary, colors.secondary, colors.warning];
-
+    const fetchUserRole = async () => {
+        const userRole = await getRole();
+        if (userRole) {
+            if (userRole == "admin") {
+                navigate("/AdminDashbard", { replace: true });
+            } else {
+                navigate("/userDashbard", { replace: true });
+            }
+        }
+    }
+  
     const handleDismiss = () => {
         setVisible(false);
     };
@@ -76,7 +87,7 @@ export const AdminDashboardPage = () => {
                     <label style={{
                         marginLeft: '20px', fontSize: '20px',
                         color: colors.primary, fontWeight: 'bold'
-                    }}>Ticketing Dashboard</label>
+                    }}>Ticketing Admin Dashboard</label>
                     <Menu mode='vertical' style={{ float: 'right', justifyContent: 'center', alignItems: 'center' }}>
                         {/* <Menu.Item key="profile" icon={<QrcodeOutlined />}>
                         <a href="#profile">QR</a>

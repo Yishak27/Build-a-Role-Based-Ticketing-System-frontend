@@ -4,7 +4,7 @@ import { PieChartOutlined, BarChartOutlined, UserOutlined, QrcodeOutlined, Logou
 import colors from '../../constant/colors';
 // import { Pie } from '@ant-design/plots';
 import { PieChart, Pie, Cell, Legend, Tooltip } from 'recharts';
-import { apiUtility, getUser } from '../../utils/api';
+import { apiUtility, getUser,getRole } from '../../utils/api';
 import { useNavigate } from 'react-router-dom';
 import { useSnackbar } from "notistack";
 import { FooterPage } from '../../Auth/FooterPage';
@@ -40,7 +40,20 @@ export const UserDashboardPage = () => {
     ];
 
     useEffect(() => {
+        fetchUserRole();
     }, [User]);
+
+    const fetchUserRole = async () => {
+        const userRole = await getRole();
+        if (userRole) {
+            if (userRole == "user") {
+                navigate("/userDashbard", { replace: true });
+            } else {
+                navigate("/AdminDashbard", { replace: true });
+            }
+        }
+    }
+
     const COLORS = [colors.primary, colors.secondary, colors.warning];
 
     const handleDismiss = () => {
@@ -76,11 +89,8 @@ export const UserDashboardPage = () => {
                     <label style={{
                         marginLeft: '20px', fontSize: '20px',
                         color: colors.primary, fontWeight: 'bold'
-                    }}>Ticketing Dashboard</label>
-                    <Menu mode='vertical' style={{ float: 'right', justifyContent: 'center', alignItems: 'center' }}>
-                        {/* <Menu.Item key="profile" icon={<QrcodeOutlined />}>
-                        <a href="#profile">QR</a>
-                    </Menu.Item> */}
+                    }}>Ticketing User Dashboard</label>
+                    <Menu mode='vertical' style={{ float: 'right', justifyContent: 'center', alignItems: 'center' }}>                    
                         <Menu.Item key="logout" onClick={handleLogout} icon={<LogoutOutlined />}>
                             <a onClick={handleLogout}>Logout</a>
                         </Menu.Item>

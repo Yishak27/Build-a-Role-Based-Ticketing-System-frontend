@@ -35,7 +35,12 @@ const Login = () => {
           localStorage.setItem("authToken", response.data.token[0]);
           localStorage.setItem("user", await encryptData(response.data));
           setIsLoading(false);
-          navigate("/userDashbard", { replace: true });
+          const userRole = response.data.roleCode ? response.data.roleCode : "user";
+          localStorage.setItem("role", await encryptData(userRole[0]))
+          if (userRole[0] == "admin")
+            navigate("/AdminDashbard", { replace: true });
+          else
+            navigate("/userDashbard", { replace: true });
         }
         else {
           enqueueSnackbar(response.message, { variant: "error" });
