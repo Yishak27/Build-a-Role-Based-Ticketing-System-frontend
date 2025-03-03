@@ -27,7 +27,6 @@ const Login = () => {
         userName: username
         , password: password
       });
-      console.log('response', response);
 
       if (response) {
         if (response.status == true) {
@@ -52,7 +51,7 @@ const Login = () => {
         return;
       }
     } catch (error) {
-      console.error('login error', error);
+      // console.error('login error', error);
       enqueueSnackbar("Something went wrong. Login failed.", { variant: "error" });
       setIsLoading(false);
     }

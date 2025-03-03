@@ -130,21 +130,10 @@ export const apiUtility = {
                 headers: { 'Cache-Control': 'no-cache' }
             });
             if (response.status === 200 && response.data) {
-                if (response.data.payload) {
-                    const decryptedData = await decryptData(response.data.payload);
-                    return { status: true, data: JSON.parse(decryptedData) };
-                }
+                return { status: true, data: response.data };
             } else {
-                if (response.data && response.data.payload) {
-                    const decryptedData = await decryptData(response.data.payload);
-                    return { status: false, data: JSON.parse(decryptedData) };
-                }
+                return { status: false, data: response };
             }
-            return {
-                status: false,
-                message: "Something went wrong. Please try again later.",
-            };
-
         } catch (error) {
             console.error('Error during GET request:', error);
             return {
@@ -156,8 +145,7 @@ export const apiUtility = {
 
     async post(url, body) {
         try {
-            const baseUrl = process.env.REACT_APP_API_BASE_URL;
-            // console.log('body', `${baseUrl}/${url}`,body);            
+            const baseUrl = process.env.REACT_APP_API_BASE_URL;        
             const response = await api.post(`${baseUrl}/${url}`,body,
                 {
                     headers: {
@@ -167,8 +155,6 @@ export const apiUtility = {
                 }
             ).then((res) => res.data)
                 .catch(err => {
-                    // console.log('error', err);
-                    
                     throw new Error(err)
                 });
 
