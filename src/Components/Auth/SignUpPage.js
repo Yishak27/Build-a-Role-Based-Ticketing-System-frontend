@@ -1,9 +1,8 @@
 import React, { useState } from "react";
-import { Container, Typography, Box, Link } from "@mui/material";
+import { Container, Typography, Box, Link, FormControl, InputLabel, MenuItem,Select } from "@mui/material";
 import { useSnackbar } from "notistack";
 import { useNavigate } from "react-router-dom";
 import colors from "../constant/colors";
-import { Button, Checkbox, Divider, Modal } from "antd";
 import { apiUtility } from '../utils/api';
 import { FooterPage } from "./FooterPage";
 import { encryptData } from "../utils/encryption";
@@ -17,6 +16,8 @@ const SignUpPage = () => {
   const [email, setEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [address, setAddress] = useState("");
+  const [role, setRole] = useState("user");
+
   const [isLoading, setIsLoading] = useState(false);
 
   const { enqueueSnackbar } = useSnackbar();
@@ -35,7 +36,7 @@ const SignUpPage = () => {
         address,
         isActive: true,
         isLocked: false,
-        roleCode: ["user"]
+        roleCode: [role]  // Role selection
       });
 
       if (response?.status) {
@@ -83,11 +84,18 @@ const SignUpPage = () => {
           <form onSubmit={handleSubmit} style={{ width: "100%" }}>
             <CustomTextField label="Full Name" value={fullName} required onChange={(e) => setFullName(e.target.value)} />
             <CustomTextField label="User Name" value={userName} required onChange={(e) => setUserName(e.target.value)} />
-            <CustomTextField label="Email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+            <CustomTextField label="Email"  type="email" value={email} required onChange={(e) => setEmail(e.target.value)} />
             <CustomTextField label="Phone Number" value={phoneNumber} required onChange={(e) => setPhoneNumber(e.target.value)} />
             <CustomTextField label="Address" value={address} onChange={(e) => setAddress(e.target.value)} />
             <CustomTextField label="Password" type="password" value={password} required onChange={(e) => setPassword(e.target.value)} />
-
+            {/* Role Selection */}
+            <FormControl fullWidth sx={{ mt: 2 }}>
+              <InputLabel>Select Role</InputLabel>
+              <Select value={role} onChange={(e) => setRole(e.target.value)} required>
+                <MenuItem value="user">User</MenuItem>
+                <MenuItem value="admin">Admin</MenuItem>
+              </Select>
+            </FormControl>
             <CustomButton type="submit" disabled={isLoading}>
               {isLoading ? "Signing Up..." : "Sign Up"}
             </CustomButton>
