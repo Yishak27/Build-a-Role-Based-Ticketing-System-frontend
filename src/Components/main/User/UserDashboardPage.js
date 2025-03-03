@@ -38,7 +38,7 @@ export const UserDashboardPage = () => {
         fetchUserRole();
         fetchTickets();
     }, []);
-    
+
     const fetchUserRole = async () => {
         const userRole = await getRole();
         if (userRole) {
@@ -59,9 +59,9 @@ export const UserDashboardPage = () => {
                 const data = response.data.data;
                 setTickets(data);
             }
-            console.log('data', tickets);
+            // console.log('data', tickets);
         } catch (error) {
-            console.error("Error fetching tickets:", error);
+            // console.error("Error fetching tickets:", error);
         }
         setLoading(false);
     };
@@ -80,7 +80,7 @@ export const UserDashboardPage = () => {
                 enqueueSnackbar(response.message, { variant: 'error' });
             }
         } catch (error) {
-            console.error("Error creating ticket:", error);
+            // console.error("Error creating ticket:", error);
             message.error("Failed to create ticket.");
         }
     };
@@ -92,7 +92,7 @@ export const UserDashboardPage = () => {
             localStorage.clear();
             navigate("/login", { replace: true });
         } catch (error) {
-            console.error("Logout error:", error);
+            // console.error("Logout error:", error);
         }
     };
 

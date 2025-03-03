@@ -218,7 +218,7 @@ export const AdminDashboardPage = () => {
     const fetchUserRole = async () => {
         const userRole = await getRole();
         if (userRole) {
-            console.log('user role', userRole);
+            // console.log('user role', userRole);
             if (userRole === "user") {
                 navigate("/userDashboard", { replace: true });
             }
@@ -234,7 +234,7 @@ export const AdminDashboardPage = () => {
                 setTickets(response.data.data);
             }
         } catch (error) {
-            console.error("Error fetching tickets:", error);
+            // console.error("Error fetching tickets:", error);
         }
         setLoading(false);
     };
@@ -251,7 +251,7 @@ export const AdminDashboardPage = () => {
                 enqueueSnackbar(response.message, { variant: "error" });
             }
         } catch (error) {
-            console.error("Error updating ticket:", error);
+            // console.error("Error updating ticket:", error);
             message.error("Failed to update ticket status.");
         }
     };
@@ -263,7 +263,7 @@ export const AdminDashboardPage = () => {
             localStorage.clear();
             navigate("/login", { replace: true });
         } catch (error) {
-            console.error("Logout error:", error);
+            // console.error("Logout error:", error);
         }
     };
 
