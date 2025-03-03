@@ -157,8 +157,7 @@ export const apiUtility = {
     async post(url, body) {
         try {
             const baseUrl = process.env.REACT_APP_API_BASE_URL;
-            console.log('body', `${baseUrl}/${url}`,body);
-            
+            // console.log('body', `${baseUrl}/${url}`,body);            
             const response = await api.post(`${baseUrl}/${url}`,body,
                 {
                     headers: {
@@ -168,11 +167,10 @@ export const apiUtility = {
                 }
             ).then((res) => res.data)
                 .catch(err => {
-                    console.log('error', err);
+                    // console.log('error', err);
                     
                     throw new Error(err)
                 });
-            console.log('response log post', response);
 
             if (response.status === "success" && response.data) {
                 if (response.data) {
