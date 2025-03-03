@@ -1,6 +1,7 @@
 import { ThemeProvider, createTheme } from '@mui/material';
 import './App.css';
 import Login from "./Components/Auth/Login";
+import SignUpPage from "./Components/Auth/SignUpPage.js";
 import ProtectedRoute from "./Components/utils/ProtectedRoute";
 import { UserDashboardPage } from "./Components/main/User/UserDashboardPage";
 import { AdminDashboardPage } from './Components/main/Admin/AdminDashboardPage';
@@ -35,6 +36,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Login />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/sinup" element = {<SignUpPage/>}></Route>
             <Route path="/userDashbard" element={<ProtectedRoute>
               <UserDashboardPage />
             </ProtectedRoute>} />

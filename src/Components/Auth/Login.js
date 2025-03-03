@@ -27,7 +27,7 @@ const Login = () => {
         userName: username
         , password: password
       });
-    console.log('response', response);
+      console.log('response', response);
 
       if (response) {
         if (response.status == true) {
@@ -66,6 +66,9 @@ const Login = () => {
 
   const onClose = () => {
     setModal(false);
+  }
+  const sinup = () => {
+    navigate("/sinup", { replace: true });
   }
 
   return (
@@ -133,6 +136,14 @@ const Login = () => {
             }} checked>Keep me logged in</Checkbox>
             <CustomButton type="submit" onload={isLoading}>Login</CustomButton>
           </form>
+          <Box sx={{ mt: 3 }}>
+            <Typography variant="body2">
+              New for ticketing system?{" "}
+              <Link href="/sinup" sx={{ color: colors.primary }}>
+                create new account here
+              </Link>
+            </Typography>
+          </Box>
           <Box
             sx={{
               display: "flex",
@@ -141,8 +152,8 @@ const Login = () => {
               mt: 3,
             }}
           >
-          <Link onClick={handleModal} sx={{ textAlign: "end" }} style={{ color: colors.primary}}>
-            Need help?</Link>
+            <Link onClick={handleModal} sx={{ textAlign: "end" }} style={{ color: colors.primary }}>
+              Need help?</Link>
           </Box>
         </Container>
         {modal &&
