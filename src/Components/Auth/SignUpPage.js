@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Container, Typography, Box, Link, FormControl, InputLabel, MenuItem,Select } from "@mui/material";
+import { Container, Typography, Box, Link, FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import { useSnackbar } from "notistack";
 import { useNavigate } from "react-router-dom";
 import colors from "../constant/colors";
@@ -38,6 +38,7 @@ const SignUpPage = () => {
         isLocked: false,
         roleCode: [role]  // Role selection
       });
+      console.log('response log', response);
 
       if (response?.status) {
         enqueueSnackbar("Signup successful", { variant: "success" });
@@ -84,7 +85,7 @@ const SignUpPage = () => {
           <form onSubmit={handleSubmit} style={{ width: "100%" }}>
             <CustomTextField label="Full Name" value={fullName} required onChange={(e) => setFullName(e.target.value)} />
             <CustomTextField label="User Name" value={userName} required onChange={(e) => setUserName(e.target.value)} />
-            <CustomTextField label="Email"  type="email" value={email} required onChange={(e) => setEmail(e.target.value)} />
+            <CustomTextField label="Email" type="email" value={email} required onChange={(e) => setEmail(e.target.value)} />
             <CustomTextField label="Phone Number" value={phoneNumber} required onChange={(e) => setPhoneNumber(e.target.value)} />
             <CustomTextField label="Address" value={address} onChange={(e) => setAddress(e.target.value)} />
             <CustomTextField label="Password" type="password" value={password} required onChange={(e) => setPassword(e.target.value)} />
