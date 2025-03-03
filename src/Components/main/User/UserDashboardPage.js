@@ -35,10 +35,21 @@ export const UserDashboardPage = () => {
     const { enqueueSnackbar } = useSnackbar();
 
     useEffect(() => {
+        fetchUserRole();
         fetchTickets();
     }, []);
-
-    // 🟢 Fetch Tickets from API
+    
+    const fetchUserRole = async () => {
+        const userRole = await getRole();
+        if (userRole) {
+            if (userRole == "admin") {
+                navigate("/AdminDashbard", { replace: true });
+            } else {
+                navigate("/userDashbard", { replace: true });
+            }
+        }
+    }
+    
     const fetchTickets = async () => {
         setLoading(true);
         const user = await getUser();
@@ -55,7 +66,6 @@ export const UserDashboardPage = () => {
         setLoading(false);
     };
 
-    // 🟢 Handle New Ticket Submission
     const handleCreateTicket = async (values) => {
         try {
             const user = await getUser();
@@ -75,7 +85,6 @@ export const UserDashboardPage = () => {
         }
     };
 
-    // 🟢 Handle Logout
     const handleLogout = async () => {
         try {
             enqueueSnackbar("Log out successfully", { variant: "success" });
@@ -129,7 +138,6 @@ export const UserDashboardPage = () => {
                 </Menu>
             </Header>
 
-            {/* 🟢 Content Section */}
             <Content
                 style={{
                     padding: "20px",
@@ -138,7 +146,6 @@ export const UserDashboardPage = () => {
                     width: "80%",
                 }}
             >
-                {/* 🟢 Welcome Alert */}
                 {visible && (
                     <Alert
                         message="Welcome to the Ticket Management Dashboard!"
@@ -149,17 +156,15 @@ export const UserDashboardPage = () => {
                     />
                 )}
 
-                {/* 🟢 New Ticket Button */}
                 <Button
                     type="primary"
                     icon={<PlusOutlined />}
                     onClick={() => setShowModal(true)}
-                    style={{ marginBottom: 20, background:colors.primary }}
+                    style={{ marginBottom: 20, background: colors.primary }}
                 >
                     New Ticket
                 </Button>
 
-                {/* 🟢 Ticket Table */}
                 <Table
                     columns={columns}
                     dataSource={tickets.length > 0 && tickets}
@@ -168,7 +173,6 @@ export const UserDashboardPage = () => {
                     bordered
                 />
 
-                {/* 🟢 New Ticket Modal */}
                 <Modal
                     title="Create New Ticket"
                     open={showModal}
@@ -202,7 +206,7 @@ export const UserDashboardPage = () => {
                             <Input.TextArea rows={4} />
                         </Form.Item>
                         <Form.Item>
-                            <Button type="primary" htmlType="submit" style={{ width: "100%", background:colors.primary  }}>
+                            <Button type="primary" htmlType="submit" style={{ width: "100%", background: colors.primary }}>
                                 Create Ticket
                             </Button>
                         </Form.Item>
@@ -210,7 +214,6 @@ export const UserDashboardPage = () => {
                 </Modal>
             </Content>
 
-            {/* 🟢 Footer */}
             <FooterPage />
         </Layout>
     );
